@@ -18,7 +18,9 @@ import io.swagger.exception.CustomerNotFoundException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -151,6 +153,9 @@ public class CustomerApiController implements CustomerApi {
     // GET/customer/{customerId}
     public ResponseEntity<Customer> getCustomerById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("customerId") Long customerId
 ) {
+    	HttpHeaders responseHeader = new HttpHeaders();
+    	List<MediaType> myList = new ArrayList<>();
+    	myList.add(MediaType.APPLICATION_JSON);
         String accept = request.getHeader("Accept");
         if (accept != null) {
 //            try {
@@ -162,7 +167,10 @@ public class CustomerApiController implements CustomerApi {
         	Customer cust = customerRepo.findById(customerId);
         	if(cust!=null)
         	{
-        		return new ResponseEntity<Customer>(cust, HttpStatus.OK);
+        		
+        		responseHeader.setAccept(myList);
+        		
+        		return new ResponseEntity<Customer>(cust, responseHeader, HttpStatus.OK);
         	}
         	else
         	{
