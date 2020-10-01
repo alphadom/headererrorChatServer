@@ -11,6 +11,8 @@ import io.swagger.model.ModelApiResponse;
 import org.springframework.core.io.Resource;
 import io.swagger.model.Transaction;
 import io.swagger.annotations.*;
+
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -116,7 +118,7 @@ public interface CustomerApi {
         @ApiResponse(code = 404, message = "Pet not found") })
     @CrossOrigin(origins = {"https://self-service-web-287019.el.r.appspot.com","http://self-service-web-287019.el.r.appspot.com", "http://localhost:4200"})
     @RequestMapping(value = "/customer/{customerId}",
-        produces = { "application/xml", "application/json" }, 
+        produces = MediaType.APPLICATION_JSON_VALUE, 
         method = RequestMethod.GET)
     ResponseEntity<Customer> getCustomerById(@ApiParam(value = "ID of pet to return",required=true) @PathVariable("customerId") Long customerId
 );
